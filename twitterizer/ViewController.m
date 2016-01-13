@@ -10,6 +10,9 @@
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+
+
 @end
 
 @implementation ViewController
@@ -19,9 +22,23 @@
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+- (IBAction)onTwitterizeButtonTapped:(UIButton *)sender {
+    
+    NSString *textViewString = self.textView.text;
+    
+    NSMutableString *twitterizedString = [NSMutableString new];
+    
+    for (int i = 0 ; i <= textViewString.length; i++) {
+        if ([textViewString characterAtIndex:i != @"a" || @"e" || @"i" || @"o" || @"u"]) {
+            
+            NSString *tempFirstPart = [NSString stringWithFormat:@"%c", [textViewString characterAtIndex:i]];
+            
+            [twitterizedString appendString:tempFirstPart];
+            
+        }
+    }
+    
 }
+
 
 @end
