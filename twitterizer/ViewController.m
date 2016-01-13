@@ -8,9 +8,11 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+
+@property (weak, nonatomic) IBOutlet UILabel *countLabel;
 
 
 @end
@@ -20,6 +22,22 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+}
+
+-(void)textViewDidChange:(UITextView *)textView {
+    
+    NSInteger wordCounter = [self.textView.text length];
+    
+    self.countLabel.text = [NSString stringWithFormat:@"count: %lu", wordCounter];
+    
+    if ([self.textView.text length] <= 140) {
+        [self.textView setEditable:YES];
+    } else {
+        [self.textView setEditable:NO];
+
+    }
+    
 }
 
 - (IBAction)onTwitterizeButtonTapped:(UIButton *)sender {
@@ -44,6 +62,10 @@
 			}
 		
 		self.textView.text = twitterizedString;
+            
+        NSInteger wordCounter = [self.textView.text length];
+            
+        self.countLabel.text = [NSString stringWithFormat:@"count: %lu", wordCounter];
 	}
 }
 @end
