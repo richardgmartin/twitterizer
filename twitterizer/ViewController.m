@@ -31,14 +31,24 @@
     
     self.countLabel.text = [NSString stringWithFormat:@"count: %lu", wordCounter];
     
-    if ([self.textView.text length] <= 140) {
-        [self.textView setEditable:YES];
-    } else {
-        [self.textView setEditable:NO];
-
-    }
-    
+//    if ([self.textView.text length] <= 140) {
+//        [self.textView setEditable:YES];
+//    } else {
+//        [self.textView setEditable:NO];
+//
+//    }
+	
 }
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+	
+	if (self.textView.text.length >= 140)
+	{
+		NSString *newString = [self.textView.text substringToIndex:[self.textView.text length]-1];
+		self.textView.text = newString;
+	}
+	return YES;
+}
+
 
 - (IBAction)onTwitterizeButtonTapped:(UIButton *)sender {
 	
@@ -68,4 +78,30 @@
         self.countLabel.text = [NSString stringWithFormat:@"count: %lu", wordCounter];
 	}
 }
+- (IBAction)onHashtagButtonPressed:(UIButton *)sender {
+	NSArray *arrayWithAllWords = [self.textView.text componentsSeparatedByString:@" "];
+	NSMutableString *finalStrings = [NSMutableString new];
+	
+	for (int i = 0; i < ([arrayWithAllWords count] - 1); i++) {
+
+	
+
+		if (i % 2 != 0) {
+			[finalStrings appendString:[NSString stringWithFormat:@"%@ ", arrayWithAllWords[i]]];
+		} else {
+			NSString *stringWithHashtag = [NSString stringWithFormat:@"#%@ ", arrayWithAllWords[i]];
+			[finalStrings appendString:stringWithHashtag];
+		}
+		
+	}
+	self.textView.text = finalStrings;
+}
+
+
+
+
+
+
+
+
 @end
